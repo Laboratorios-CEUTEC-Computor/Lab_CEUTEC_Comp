@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="https://media-exp1.licdn.com/dms/image/C4D0BAQGnGJgCv5zDwQ/company-logo_200_200/0/1589820366187?e=2159024400&v=beta&t=V4G9_knjQmSTcydeyoVaiRmrezAAy5CBLIry-Uod2do">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="Table.css">
+    <title>Laboratio 8</title>
+</head>
+<body>
+
+    <style>
+        .seleccionado {
+            background-color: #11116c;
+            border: 2px solid #0d0d0d;
+            color: white;
+        }
+    </style>
+    
+    <div class="clase">
+        <h1>
+            <a href="../index_principal.html" style="text-decoration: none; color: white; position: absolute; left: 10px;"><button<i class="bi bi-arrow-left-square-fill"></i></button></a>
+            Laboratorio de computo 08</h1>
+
+        <div class="docente">
+
+            <a href="#" onclick="abrir_Docente_L8()" style="color: #0d0d0d;">
+                <div class="box_docente" id="box_externo_Docente_L8">
+                    <i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-Docente
+                </div>
+            </a>
+            <div class="Contenido" id="box_interno_Docente_L8">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_Docente_L8()">
+                        <i class="bi bi-x-square" style="color: white; font-size: x-large; position: fixed; left: 72%;"></i>
+                    </a>
+                    <a href="#" onclick="edit_Docente_L8()">
+                        <i class="bi bi-pencil-square" style="color: white; font-size: x-large; left: 83%;"></i>
+                    </a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-Docente
+                </h2>
+                <dialog id="report_Docente_L8">
+                    <p><b>Instrucciones:</b> A continuación se enumeran los problemas más comunes en el equipo. Seleccione la opción que mejor describa la dificultad que está experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedó pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_Docente_L8('Faltan programas'); colorproblema_Docente_L8('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_Docente_L8('Necesita soporte'); colorproblema_Docente_L8('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_Docente_L8('Falta un componente'); colorproblema_Docente_L8('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_Docente_L8('En mal estado'); colorproblema_Docente_L8('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_Docente_L8" action="../php_envio_correos/enviar_correo.php" method="post">
+                        <input id="problema_Docente_L8" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aquí">
+                        <input type="hidden" name="div_name" value="Docente_L8">
+                    </form>
+                    <button type="button" onclick="enviar_problem_Docente_L8()" class="enviar">Enviar</button>
+                </dialog>
+                <dialog id="estado_Docente_L8">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que está utilizando actualmente cuenta con algún tipo de problema, puede presionar la opción <b>Reportar problema</b> para poder informar el problema que está presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_Docente_L8()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+        </div>
+        <div class="control">
+            <h2>Indicador de estado</h2>
+            <div class="division">
+                <h3><div class="colores_estado" id="verde"> </div> Buen estado</h3>
+                <h3><div class="colores_estado" id="azul"> </div> Faltan programas</h3>
+                <h3><div class="colores_estado" id="amarillo"> </div> Necesita soporte</h3>
+                <h3><div class="colores_estado" id="naranja"> </div> Falta un componente</h3>
+                <h3><div class="colores_estado" id="rojo"> </div> En mal estado</h3>
+                <h3><div class="colores_estado" id="blanco"> </div> Espacio libre</h3>
+            </div>
+        </div>
+        <div class="column" id="column_1" >
+            <div class="div-box_colum">A</div>
+            <div class="div-box_colum">B</div>
+            <div class="div-box_colum">C</div>
+            <br>
+
+           <!-- L8_A01 -->
+
+            <a href="#" onclick="abrir_L8_A01()"><div class="div-box" id="box_externo_L8_A01"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-A01</div></a>
+            <div class="Contenido" id="box_interno_L8_A01">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_A01()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_A01()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-A01
+                </h2>
+                <dialog id="report_L8_A01">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_A01('Faltan programas'); colorproblema_L8_A01('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_A01('Necesita soporte'); colorproblema_L8_A01('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_A01('Falta un componente'); colorproblema_L8_A01('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_A01('En mal estado'); colorproblema_L8_A01('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_A01" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_A01" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_A01">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_A01()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_A01">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_A01()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+               <!-- L8_B01 -->  
+    
+            <a href="#" onclick="abrir_L8_B01()"><div class="div-box" id="box_externo_L8_B01"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-B01</div></a>
+                <div class="Contenido" id="box_interno_L8_B01">
+                    <nav class="nav_form">
+                        <a href="#" onclick="cerrar_L8_B01()"><i class="bi bi-x-square"
+                            style="
+                                color: white;
+                                font-size: x-large;
+                                position: fixed;
+                                left: 72%;"></i></a>
+                        <a href="#" onclick="edit_L8_B01()"><i class="bi bi-pencil-square" 
+                            style="
+                                color: white;
+                                font-size: x-large;
+                                left: 83%;"></i></a>
+                        </nav>
+                        <br>
+                        <h2><i class="bi bi-pc-display-horizontal"></i>
+                            <br>
+                    L8-B01
+                </h2>
+                <dialog id="report_L8_B01">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_B01('Faltan programas'); colorproblema_L8_B01('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_B01('Necesita soporte'); colorproblema_L8_B01('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_B01('Falta un componente'); colorproblema_L8_B01('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_B01('En mal estado'); colorproblema_L8_B01('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_B01" action="enviar_correo.php" method="post">
+                        <input id="problema" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_B01">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_B01()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_B01">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_B01()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+
+            <!-- L8_C01 -->
+                
+            <a href="#" onclick="abrir_L8_C01()"><div class="div-box" id="box_externo_L8_C01"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-C01</div></a>
+            <div class="Contenido" id="box_interno_L8_C01">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_C01()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_C01()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-C01
+                </h2>
+                <dialog id="report_L8_C01">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_C01('Faltan programas'); colorproblema_L8_C01('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_C01('Necesita soporte'); colorproblema_L8_C01('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_C01('Falta un componente'); colorproblema_L8_C01('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_C01('En mal estado'); colorproblema_L8_C01('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_C01" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_C01" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_C01">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_C01()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_C01">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_C01()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            <br>
+
+            <!-- L8_A02 -->
+
+                    <a href="#" onclick="abrir_L8_A02()"><div class="div-box" id="box_externo_L8_A02"><i class="bi bi-pc-display-horizontal"></i>
+                        <br>
+                        L8-A02</div></a>
+                    <div class="Contenido" id="box_interno_L8_A02">
+                        <nav class="nav_form">
+                            <a href="#" onclick="cerrar_L8_A02()"><i class="bi bi-x-square"
+                                style="
+                                    color: white;
+                                    font-size: x-large;
+                                    position: fixed;
+                                    left: 72%;"></i></a>
+                            <a href="#" onclick="edit_L8_A02()"><i class="bi bi-pencil-square" 
+                                style="
+                                    color: white;
+                                    font-size: x-large;
+                                    left: 83%;"></i></a>
+                        </nav>
+                        <br>
+                        <h2><i class="bi bi-pc-display-horizontal"></i>
+                            <br>
+                            L8-A02
+                        </h2>
+                        <dialog id="report_L8_A02">
+                            <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                            <ul>
+                                <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                                <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                                <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                                <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                            </ul>
+                            <br>
+                            <br>
+                            <b>Seleccionar problema:</b>
+                            <br>
+                            <button onclick="problemaselecionado_L8_A02('Faltan programas'); colorproblema_L8_A02('Faltan programas')" class="button_ventana">Faltan programas</button>
+                            <button onclick="problemaselecionado_L8_A02('Necesita soporte'); colorproblema_L8_A02('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                            <button onclick="problemaselecionado_L8_A02('Falta un componente'); colorproblema_L8_A02('Falta un componente')" class="button_ventana">Falta un componente</button>
+                            <button onclick="problemaselecionado_L8_A02('En mal estado'); colorproblema_L8_A02('En mal estado')" class="button_ventana">En mal estado</button>
+                            <br><br>
+                            <form id="problemaForm_L8_A02" action="enviar_correo.php" method="post">
+                                <input id="problema_L8_A02" name="problema" type="hidden">
+                                <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                                <input type="hidden" name="div_name" value="L8_A02">
+                            </form>
+                            <button type="button" onclick="enviar_problem_L8_A02()" class="enviar">Guardar</button>
+                        </dialog>
+                        <dialog id="estado_L8_A02">
+                            <p><b>Estado:</b>
+                                <br>
+                                Buen estado
+                            </p>
+                            <br><br>
+                            <p><b>Problema:</b>
+                                <br>
+                                Ninguno
+                            </p>
+                            <br><br>
+                            <p><b>Instrucciones:</b>
+                                <br><br>
+                                Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                            </p>
+                            <br>
+                            <button onclick="report_problem_L8_A02()" class="boton_report">Reportar problema</button>
+                        </dialog>
+                    </div>
+
+            <!-- L8_B02 -->            
+
+<a href="#" onclick="abrir_L8_B02()"><div class="div-box" id="box_externo_L8_B02"><i class="bi bi-pc-display-horizontal"></i>
+    <br>
+    L8-B02</div></a>
+    <div class="Contenido" id="box_interno_L8_B02">
+        <nav class="nav_form">
+            <a href="#" onclick="cerrar_L8_B02()"><i class="bi bi-x-square"
+                style="
+                    color: white;
+                    font-size: x-large;
+                    position: fixed;
+                    left: 72%;"></i></a>
+            <a href="#" onclick="edit_L8_B02()"><i class="bi bi-pencil-square" 
+                style="
+                    color: white;
+                    font-size: x-large;
+                    left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+        L8-B02
+    </h2>
+    <dialog id="report_L8_B02">
+        <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+        <ul>
+            <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+            <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+            <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+            <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+        </ul>
+        <br>
+        <br>
+        <b>Seleccionar problema:</b>
+        <br>
+        <button onclick="problemaselecionado_L8_B02('Faltan programas'); colorproblema_L8_B02('Faltan programas')" class="button_ventana">Faltan programas</button>
+        <button onclick="problemaselecionado_L8_B02('Necesita soporte'); colorproblema_L8_B02('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+        <button onclick="problemaselecionado_L8_B02('Falta un componente'); colorproblema_L8_B02('Falta un componente')" class="button_ventana">Falta un componente</button>
+        <button onclick="problemaselecionado_L8_B02('En mal estado'); colorproblema_L8_B02('En mal estado')" class="button_ventana">En mal estado</button>
+        <br><br>
+        <form id="problemaForm_L8_B02" action="enviar_correo.php" method="post">
+            <input id="problema_L8_B02" name="problema" type="hidden">
+            <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+            <input type="hidden" name="div_name" value="L8_B02">
+        </form>
+        <button type="button" onclick="enviar_problem_L8_B02()" class="enviar">Guardar</button>
+    </dialog>
+    <dialog id="estado_L8_B02">
+        <p><b>Estado:</b>
+            <br>
+            Buen estado
+        </p>
+        <br><br>
+        <p><b>Problema:</b>
+            <br>
+            Ninguno
+        </p>
+        <br><br>
+        <p><b>Instrucciones:</b>
+            <br><br>
+            Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+        </p>
+        <br>
+        <button onclick="report_problem_L8_B02()" class="boton_report">Reportar problema</button>
+    </dialog>
+</div>    
+
+<!-- L8_C02 -->
+                
+<a href="#" onclick="abrir_L8_C02()"><div class="div-box" id="box_externo_L8_C02"><i class="bi bi-pc-display-horizontal"></i>
+    <br>
+    L8-C02</div></a>
+<div class="Contenido" id="box_interno_L8_C02">
+    <nav class="nav_form">
+        <a href="#" onclick="cerrar_L8_C02()"><i class="bi bi-x-square"
+            style="
+                color: white;
+                font-size: x-large;
+                position: fixed;
+                left: 72%;"></i></a>
+        <a href="#" onclick="edit_L8_C02()"><i class="bi bi-pencil-square" 
+            style="
+                color: white;
+                font-size: x-large;
+                left: 83%;"></i></a>
+    </nav>
+    <br>
+    <h2><i class="bi bi-pc-display-horizontal"></i>
+        <br>
+        L8-C02
+    </h2>
+    <dialog id="report_L8_C02">
+        <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+        <ul>
+            <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+            <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+            <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+            <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+        </ul>
+        <br>
+        <br>
+        <b>Seleccionar problema:</b>
+        <br>
+        <button onclick="problemaselecionado_L8_C02('Faltan programas'); colorproblema_L8_C02('Faltan programas')" class="button_ventana">Faltan programas</button>
+        <button onclick="problemaselecionado_L8_C02('Necesita soporte'); colorproblema_L8_C02('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+        <button onclick="problemaselecionado_L8_C02('Falta un componente'); colorproblema_L8_C02('Falta un componente')" class="button_ventana">Falta un componente</button>
+        <button onclick="problemaselecionado_L8_C02('En mal estado'); colorproblema_L8_C02('En mal estado')" class="button_ventana">En mal estado</button>
+        <br><br>
+        <form id="problemaForm_L8_C02" action="enviar_correo.php" method="post">
+            <input id="problema_L8_C02" name="problema" type="hidden">
+            <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+            <input type="hidden" name="div_name" value="L8_C02">
+        </form>
+        <button type="button" onclick="enviar_problem_L8_C02()" class="enviar">Guardar</button>
+    </dialog>
+    <dialog id="estado_L8_C02">
+        <p><b>Estado:</b>
+            <br>
+            Buen estado
+        </p>
+        <br><br>
+        <p><b>Problema:</b>
+            <br>
+            Ninguno
+        </p>
+        <br><br>
+        <p><b>Instrucciones:</b>
+            <br><br>
+            Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+        </p>
+        <br>
+        <button onclick="report_problem_L8_C02()" class="boton_report">Reportar problema</button>
+    </dialog>
+</div>       
+            <br>
+
+        <!-- L8_A03 -->
+
+            <a href="#" onclick="abrir_L8_A03()"><div class="div-box" id="box_externo_L8_A03"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-A03</div></a>
+            <div class="Contenido" id="box_interno_L8_A03">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_A03()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_A03()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-A03
+                </h2>
+                <dialog id="report_L8_A03">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_A03('Faltan programas'); colorproblema_L8_A03('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_A03('Necesita soporte'); colorproblema_L8_A03('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_A03('Falta un componente'); colorproblema_L8_A03('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_A03('En mal estado'); colorproblema_L8_A03('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_A03" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_A03" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_A03">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_A03()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_A03">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_A03()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+<!-- L8_B03 -->
+
+<a href="#" onclick="abrir_L8_B03()"><div class="div-box" id="box_externo_L8_B03"><i class="bi bi-pc-display-horizontal"></i>
+    <br>
+    L8-B03</div></a>
+    <div class="Contenido" id="box_interno_L8_B03">
+        <nav class="nav_form">
+            <a href="#" onclick="cerrar_L8_B03()"><i class="bi bi-x-square"
+                style="
+                    color: white;
+                    font-size: x-large;
+                    position: fixed;
+                    left: 72%;"></i></a>
+            <a href="#" onclick="edit_L8_B03()"><i class="bi bi-pencil-square" 
+                style="
+                    color: white;
+                    font-size: x-large;
+                    left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+        L8-B03
+    </h2>
+    <dialog id="report_L8_B03">
+        <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+        <ul>
+            <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+            <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+            <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+            <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+        </ul>
+        <br>
+        <br>
+        <b>Seleccionar problema:</b>
+        <br>
+        <button onclick="problemaselecionado_L8_B03('Faltan programas'); colorproblema_L8_B03('Faltan programas')" class="button_ventana">Faltan programas</button>
+        <button onclick="problemaselecionado_L8_B03('Necesita soporte'); colorproblema_L8_B03('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+        <button onclick="problemaselecionado_L8_B03('Falta un componente'); colorproblema_L8_B03('Falta un componente')" class="button_ventana">Falta un componente</button>
+        <button onclick="problemaselecionado_L8_B03('En mal estado'); colorproblema_L8_B03('En mal estado')" class="button_ventana">En mal estado</button>
+        <br><br>
+        <form id="problemaForm_L8_B03" action="enviar_correo.php" method="post">
+            <input id="problema_L8_B03" name="problema" type="hidden">
+            <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+            <input type="hidden" name="div_name" value="L8_B03">
+        </form>
+        <button type="button" onclick="enviar_problem_L8_B03()" class="enviar">Guardar</button>
+    </dialog>
+    <dialog id="estado_L8_B03">
+        <p><b>Estado:</b>
+            <br>
+            Buen estado
+        </p>
+        <br><br>
+        <p><b>Problema:</b>
+            <br>
+            Ninguno
+        </p>
+        <br><br>
+        <p><b>Instrucciones:</b>
+            <br><br>
+            Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+        </p>
+        <br>
+        <button onclick="report_problem_L8_B03()" class="boton_report">Reportar problema</button>
+    </dialog>
+</div>
+
+<!-- L8_C03 -->
+
+<a href="#" onclick="abrir_L8_C03()"><div class="div-box" id="box_externo_L8_C03"><i class="bi bi-pc-display-horizontal"></i>
+    <br>
+    L8-C03</div></a>
+<div class="Contenido" id="box_interno_L8_C03">
+    <nav class="nav_form">
+        <a href="#" onclick="cerrar_L8_C03()"><i class="bi bi-x-square"
+            style="
+                color: white;
+                font-size: x-large;
+                position: fixed;
+                left: 72%;"></i></a>
+        <a href="#" onclick="edit_L8_C03()"><i class="bi bi-pencil-square" 
+            style="
+                color: white;
+                font-size: x-large;
+                left: 83%;"></i></a>
+    </nav>
+    <br>
+    <h2><i class="bi bi-pc-display-horizontal"></i>
+        <br>
+        L8-C03
+    </h2>
+    <dialog id="report_L8_C03">
+        <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+        <ul>
+            <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+            <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+            <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+            <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+        </ul>
+        <br>
+        <br>
+        <b>Seleccionar problema:</b>
+        <br>
+        <button onclick="problemaselecionado_L8_C03('Faltan programas'); colorproblema_L8_C03('Faltan programas')" class="button_ventana">Faltan programas</button>
+        <button onclick="problemaselecionado_L8_C03('Necesita soporte'); colorproblema_L8_C03('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+        <button onclick="problemaselecionado_L8_C03('Falta un componente'); colorproblema_L8_C03('Falta un componente')" class="button_ventana">Falta un componente</button>
+        <button onclick="problemaselecionado_L8_C03('En mal estado'); colorproblema_L8_C03('En mal estado')" class="button_ventana">En mal estado</button>
+        <br><br>
+        <form id="problemaForm_L8_C03" action="enviar_correo.php" method="post">
+            <input id="problema_L8_C03" name="problema" type="hidden">
+            <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+            <input type="hidden" name="div_name" value="L8_C03">
+        </form>
+        <button type="button" onclick="enviar_problem_L8_C03()" class="enviar">Guardar</button>
+    </dialog>
+    <dialog id="estado_L8_C03">
+        <p><b>Estado:</b>
+            <br>
+            Buen estado
+        </p>
+        <br><br>
+        <p><b>Problema:</b>
+            <br>
+            Ninguno
+        </p>
+        <br><br>
+        <p><b>Instrucciones:</b>
+            <br><br>
+            Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+        </p>
+        <br>
+        <button onclick="report_problem_L8_C03()" class="boton_report">Reportar problema</button>
+    </dialog>
+</div>
+
+
+        </div>
+        <div class="column" id="column_2">
+            <div class="div-box_colum">D</div>
+            <div class="div-box_colum">E</div>
+            <div class="div-box_colum">F</div>
+            <div class="div-box_colum">G</div>
+            <br>
+
+        <!-- L8_D01 -->
+
+            <a href="#" onclick="abrir_L8_D01()"><div class="div-box" id="box_externo_L8_D01"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-D01</div></a>
+            <div class="Contenido" id="box_interno_L8_D01">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_D01()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_D01()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-D01
+                </h2>
+                <dialog id="report_L8_D01">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_D01('Faltan programas'); colorproblema_L8_D01('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_D01('Necesita soporte'); colorproblema_L8_D01('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_D01('Falta un componente'); colorproblema_L8_D01('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_D01('En mal estado'); colorproblema_L8_D01('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_D01" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_D01" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_D01">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_D01()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_D01">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_D01()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+              <!-- L8_E01 -->      
+    
+              <a href="#" onclick="abrir_L8_E01()"><div class="div-box" id="box_externo_L8_E01"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-E01</div></a>
+            <div class="Contenido" id="box_interno_L8_E01">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_E01()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_E01()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-E01
+                </h2>
+                <dialog id="report_L8_E01">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_E01('Faltan programas'); colorproblema_L8_E01('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_E01('Necesita soporte'); colorproblema_L8_E01('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_E01('Falta un componente'); colorproblema_L8_E01('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_E01('En mal estado'); colorproblema_L8_E01('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_E01" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_E01" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_E01">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_E01()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_E01">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_E01()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+            <!-- L8_F01 -->  
+            
+            <a href="#" onclick="abrir_L8_F01()"><div class="div-box" id="box_externo_L8_F01"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-F01</div></a>
+            <div class="Contenido" id="box_interno_L8_F01">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_F01()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_F01()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-F01
+                </h2>
+                <dialog id="report_L8_F01">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_F01('Faltan programas'); colorproblema_L8_F01('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_F01('Necesita soporte'); colorproblema_L8_F01('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_F01('Falta un componente'); colorproblema_L8_F01('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_F01('En mal estado'); colorproblema_L8_F01('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_F01" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_F01" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_F01">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_F01()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_F01">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_F01()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+             <!-- L8_G01 -->  
+            
+             <a href="#" onclick="abrir_L8_G01()"><div class="div-box" id="box_externo_L8_G01"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-G01</div></a>
+            <div class="Contenido" id="box_interno_L8_G01">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_G01()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_G01()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-G01
+                </h2>
+                <dialog id="report_L8_G01">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_G01('Faltan programas'); colorproblema_L8_G01('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_G01('Necesita soporte'); colorproblema_L8_G01('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_G01('Falta un componente'); colorproblema_L8_G01('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_G01('En mal estado'); colorproblema_L8_G01('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_G01" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_G01" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_G01">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_G01()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_G01">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_G01()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+            
+            <br>
+
+        <!-- L8_D02 -->
+
+            <a href="#" onclick="abrir_L8_D02()"><div class="div-box" id="box_externo_L8_D02"><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-D02</div></a>
+            <div class="Contenido" id="box_interno_L8_D02">
+                <nav class="nav_form">
+                    <a href="#" onclick="cerrar_L8_D02()"><i class="bi bi-x-square"
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            position: fixed;
+                            left: 72%;"></i></a>
+                    <a href="#" onclick="edit_L8_D02()"><i class="bi bi-pencil-square" 
+                        style="
+                            color: white;
+                            font-size: x-large;
+                            left: 83%;"></i></a>
+                </nav>
+                <br>
+                <h2><i class="bi bi-pc-display-horizontal"></i>
+                    <br>
+                    L8-D02
+                </h2>
+                <dialog id="report_L8_D02">
+                    <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                    <ul>
+                        <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                        <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                        <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                        <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <b>Seleccionar problema:</b>
+                    <br>
+                    <button onclick="problemaselecionado_L8_D02('Faltan programas'); colorproblema_L8_D02('Faltan programas')" class="button_ventana">Faltan programas</button>
+                    <button onclick="problemaselecionado_L8_D02('Necesita soporte'); colorproblema_L8_D02('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                    <button onclick="problemaselecionado_L8_D02('Falta un componente'); colorproblema_L8_D02('Falta un componente')" class="button_ventana">Falta un componente</button>
+                    <button onclick="problemaselecionado_L8_D02('En mal estado'); colorproblema_L8_D02('En mal estado')" class="button_ventana">En mal estado</button>
+                    <br><br>
+                    <form id="problemaForm_L8_D02" action="enviar_correo.php" method="post">
+                        <input id="problema_L8_D02" name="problema" type="hidden">
+                        <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                        <input type="hidden" name="div_name" value="L8_D02">
+                    </form>
+                    <button type="button" onclick="enviar_problem_L8_D02()" class="enviar">Guardar</button>
+                </dialog>
+                <dialog id="estado_L8_D02">
+                    <p><b>Estado:</b>
+                        <br>
+                        Buen estado
+                    </p>
+                    <br><br>
+                    <p><b>Problema:</b>
+                        <br>
+                        Ninguno
+                    </p>
+                    <br><br>
+                    <p><b>Instrucciones:</b>
+                        <br><br>
+                        Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                    </p>
+                    <br>
+                    <button onclick="report_problem_L8_D02()" class="boton_report">Reportar problema</button>
+                </dialog>
+            </div>
+            
+                
+
+        <!-- L8_E02 -->
+
+        <a href="#" onclick="abrir_L8_E02()"><div class="div-box" id="box_externo_L8_E02"><i class="bi bi-pc-display-horizontal"></i>
+            <br>
+            L8-E02</div></a>
+        <div class="Contenido" id="box_interno_L8_E02">
+            <nav class="nav_form">
+                <a href="#" onclick="cerrar_L8_E02()"><i class="bi bi-x-square"
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        position: fixed;
+                        left: 72%;"></i></a>
+                <a href="#" onclick="edit_L8_E02()"><i class="bi bi-pencil-square" 
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-E02
+            </h2>
+            <dialog id="report_L8_E02">
+                <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                <ul>
+                    <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                    <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                    <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                    <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                </ul>
+                <br>
+                <br>
+                <b>Seleccionar problema:</b>
+                <br>
+                <button onclick="problemaselecionado_L8_E02('Faltan programas'); colorproblema_L8_E02('Faltan programas')" class="button_ventana">Faltan programas</button>
+                <button onclick="problemaselecionado_L8_E02('Necesita soporte'); colorproblema_L8_E02('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                <button onclick="problemaselecionado_L8_E02('Falta un componente'); colorproblema_L8_E02('Falta un componente')" class="button_ventana">Falta un componente</button>
+                <button onclick="problemaselecionado_L8_E02('En mal estado'); colorproblema_L8_E02('En mal estado')" class="button_ventana">En mal estado</button>
+                <br><br>
+                <form id="problemaForm_L8_E02" action="enviar_correo.php" method="post">
+                    <input id="problema_L8_E02" name="problema" type="hidden">
+                    <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                    <input type="hidden" name="div_name" value="L8_E02">
+                </form>
+                <button type="button" onclick="enviar_problem_L8_E02()" class="enviar">Guardar</button>
+            </dialog>
+            <dialog id="estado_L8_E02">
+                <p><b>Estado:</b>
+                    <br>
+                    Buen estado
+                </p>
+                <br><br>
+                <p><b>Problema:</b>
+                    <br>
+                    Ninguno
+                </p>
+                <br><br>
+                <p><b>Instrucciones:</b>
+                    <br><br>
+                    Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                </p>
+                <br>
+                <button onclick="report_problem_L8_E02()" class="boton_report">Reportar problema</button>
+            </dialog>
+        </div>
+        
+        
+        <!-- L8_F02 -->
+
+        <a href="#" onclick="abrir_L8_F02()"><div class="div-box" id="box_externo_L8_F02"><i class="bi bi-pc-display-horizontal"></i>
+            <br>
+            L8-F02</div></a>
+        <div class="Contenido" id="box_interno_L8_F02">
+            <nav class="nav_form">
+                <a href="#" onclick="cerrar_L8_F02()"><i class="bi bi-x-square"
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        position: fixed;
+                        left: 72%;"></i></a>
+                <a href="#" onclick="edit_L8_F02()"><i class="bi bi-pencil-square" 
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-F02
+            </h2>
+            <dialog id="report_L8_F02">
+                <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                <ul>
+                    <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                    <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                    <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                    <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                </ul>
+                <br>
+                <br>
+                <b>Seleccionar problema:</b>
+                <br>
+                <button onclick="problemaselecionado_L8_F02('Faltan programas'); colorproblema_L8_F02('Faltan programas')" class="button_ventana">Faltan programas</button>
+                <button onclick="problemaselecionado_L8_F02('Necesita soporte'); colorproblema_L8_F02('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                <button onclick="problemaselecionado_L8_F02('Falta un componente'); colorproblema_L8_F02('Falta un componente')" class="button_ventana">Falta un componente</button>
+                <button onclick="problemaselecionado_L8_F02('En mal estado'); colorproblema_L8_F02('En mal estado')" class="button_ventana">En mal estado</button>
+                <br><br>
+                <form id="problemaForm_L8_F02" action="enviar_correo.php" method="post">
+                    <input id="problema_L8_F02" name="problema" type="hidden">
+                    <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                    <input type="hidden" name="div_name" value="L8_F02">
+                </form>
+                <button type="button" onclick="enviar_problem_L8_F02()" class="enviar">Guardar</button>
+            </dialog>
+            <dialog id="estado_L8_F02">
+                <p><b>Estado:</b>
+                    <br>
+                    Buen estado
+                </p>
+                <br><br>
+                <p><b>Problema:</b>
+                    <br>
+                    Ninguno
+                </p>
+                <br><br>
+                <p><b>Instrucciones:</b>
+                    <br><br>
+                    Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                </p>
+                <br>
+                <button onclick="report_problem_L8_F02()" class="boton_report">Reportar problema</button>
+            </dialog>
+        </div>        
+
+        <!-- L8_G02 -->
+
+        <a href="#" onclick="abrir_L8_G02()"><div class="div-box" id="box_externo_L8_G02"><i class="bi bi-pc-display-horizontal"></i>
+            <br>
+            L8-G02</div></a>
+        <div class="Contenido" id="box_interno_L8_G02">
+            <nav class="nav_form">
+                <a href="#" onclick="cerrar_L8_G02()"><i class="bi bi-x-square"
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        position: fixed;
+                        left: 72%;"></i></a>
+                <a href="#" onclick="edit_L8_G02()"><i class="bi bi-pencil-square" 
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-G02
+            </h2>
+            <dialog id="report_L8_G02">
+                <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                <ul>
+                    <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                    <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                    <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                    <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                </ul>
+                <br>
+                <br>
+                <b>Seleccionar problema:</b>
+                <br>
+                <button onclick="problemaselecionado_L8_G02('Faltan programas'); colorproblema_L8_G02('Faltan programas')" class="button_ventana">Faltan programas</button>
+                <button onclick="problemaselecionado_L8_G02('Necesita soporte'); colorproblema_L8_G02('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                <button onclick="problemaselecionado_L8_G02('Falta un componente'); colorproblema_L8_G02('Falta un componente')" class="button_ventana">Falta un componente</button>
+                <button onclick="problemaselecionado_L8_G02('En mal estado'); colorproblema_L8_G02('En mal estado')" class="button_ventana">En mal estado</button>
+                <br><br>
+                <form id="problemaForm_L8_G02" action="enviar_correo.php" method="post">
+                    <input id="problema_L8_G02" name="problema" type="hidden">
+                    <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                    <input type="hidden" name="div_name" value="L8_G02">
+                </form>
+                <button type="button" onclick="enviar_problem_L8_G02()" class="enviar">Guardar</button>
+            </dialog>
+            <dialog id="estado_L8_G02">
+                <p><b>Estado:</b>
+                    <br>
+                    Buen estado
+                </p>
+                <br><br>
+                <p><b>Problema:</b>
+                    <br>
+                    Ninguno
+                </p>
+                <br><br>
+                <p><b>Instrucciones:</b>
+                    <br><br>
+                    Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                </p>
+                <br>
+                <button onclick="report_problem_L8_G02()" class="boton_report">Reportar problema</button>
+            </dialog>
+        </div>
+        
+        
+        <br>
+
+           <!-- L8_D03 --> 
+
+        <a href="#" onclick="abrir_L8_D03()"><div class="div-box" id="box_externo_L8_D03"><i class="bi bi-pc-display-horizontal"></i>
+            <br>
+            L8-D03</div></a>
+        <div class="Contenido" id="box_interno_L8_D03">
+            <nav class="nav_form">
+                <a href="#" onclick="cerrar_L8_D03()"><i class="bi bi-x-square"
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        position: fixed;
+                        left: 72%;"></i></a>
+                <a href="#" onclick="edit_L8_D03()"><i class="bi bi-pencil-square" 
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-D03
+            </h2>
+            <dialog id="report_L8_D03">
+                <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                <ul>
+                    <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                    <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                    <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                    <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                </ul>
+                <br>
+                <br>
+                <b>Seleccionar problema:</b>
+                <br>
+                <button onclick="problemaselecionado_L8_D03('Faltan programas'); colorproblema_L8_D03('Faltan programas')" class="button_ventana">Faltan programas</button>
+                <button onclick="problemaselecionado_L8_D03('Necesita soporte'); colorproblema_L8_D03('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                <button onclick="problemaselecionado_L8_D03('Falta un componente'); colorproblema_L8_D03('Falta un componente')" class="button_ventana">Falta un componente</button>
+                <button onclick="problemaselecionado_L8_D03('En mal estado'); colorproblema_L8_D03('En mal estado')" class="button_ventana">En mal estado</button>
+                <br><br>
+                <form id="problemaForm_L8_D03" action="enviar_correo.php" method="post">
+                    <input id="problema_L8_D03" name="problema" type="hidden">
+                    <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                    <input type="hidden" name="div_name" value="L8_D03">
+                </form>
+                <button type="button" onclick="enviar_problem_L8_D03()" class="enviar">Guardar</button>
+            </dialog>
+            <dialog id="estado_L8_D03">
+                <p><b>Estado:</b>
+                    <br>
+                    Buen estado
+                </p>
+                <br><br>
+                <p><b>Problema:</b>
+                    <br>
+                    Ninguno
+                </p>
+                <br><br>
+                <p><b>Instrucciones:</b>
+                    <br><br>
+                    Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                </p>
+                <br>
+                <button onclick="report_problem_L8_D03()" class="boton_report">Reportar problema</button>
+            </dialog>
+        </div>
+        
+         <!-- L8_E03 --> 
+
+        <a href="#" onclick="abrir_L8_E03()"><div class="div-box" id="box_externo_L8_E03"><i class="bi bi-pc-display-horizontal"></i>
+            <br>
+            L8-E03</div></a>
+        <div class="Contenido" id="box_interno_L8_E03">
+            <nav class="nav_form">
+                <a href="#" onclick="cerrar_L8_E03()"><i class="bi bi-x-square"
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        position: fixed;
+                        left: 72%;"></i></a>
+                <a href="#" onclick="edit_L8_E03()"><i class="bi bi-pencil-square" 
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-E03
+            </h2>
+            <dialog id="report_L8_E03">
+                <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                <ul>
+                    <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                    <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                    <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                    <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                </ul>
+                <br>
+                <br>
+                <b>Seleccionar problema:</b>
+                <br>
+                <button onclick="problemaselecionado_L8_E03('Faltan programas'); colorproblema_L8_E03('Faltan programas')" class="button_ventana">Faltan programas</button>
+                <button onclick="problemaselecionado_L8_E03('Necesita soporte'); colorproblema_L8_E03('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                <button onclick="problemaselecionado_L8_E03('Falta un componente'); colorproblema_L8_E03('Falta un componente')" class="button_ventana">Falta un componente</button>
+                <button onclick="problemaselecionado_L8_E03('En mal estado'); colorproblema_L8_E03('En mal estado')" class="button_ventana">En mal estado</button>
+                <br><br>
+                <form id="problemaForm_L8_E03" action="enviar_correo.php" method="post">
+                    <input id="problema_L8_E03" name="problema" type="hidden">
+                    <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                    <input type="hidden" name="div_name" value="L8_E03">
+                </form>
+                <button type="button" onclick="enviar_problem_L8_E03()" class="enviar">Guardar</button>
+            </dialog>
+            <dialog id="estado_L8_E03">
+                <p><b>Estado:</b>
+                    <br>
+                    Buen estado
+                </p>
+                <br><br>
+                <p><b>Problema:</b>
+                    <br>
+                    Ninguno
+                </p>
+                <br><br>
+                <p><b>Instrucciones:</b>
+                    <br><br>
+                    Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                </p>
+                <br>
+                <button onclick="report_problem_L8_E03()" class="boton_report">Reportar problema</button>
+            </dialog>
+        </div>
+
+        <!-- L8_F03 --> 
+        
+        <a href="#" onclick="abrir_L8_F03()"><div class="div-box" id="box_externo_L8_F03"><i class="bi bi-pc-display-horizontal"></i>
+            <br>
+            L8-F03</div></a>
+        <div class="Contenido" id="box_interno_L8_F03">
+            <nav class="nav_form">
+                <a href="#" onclick="cerrar_L8_F03()"><i class="bi bi-x-square"
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        position: fixed;
+                        left: 72%;"></i></a>
+                <a href="#" onclick="edit_L8_F03()"><i class="bi bi-pencil-square" 
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-F03
+            </h2>
+            <dialog id="report_L8_F03">
+                <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                <ul>
+                    <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                    <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                    <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                    <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                </ul>
+                <br>
+                <br>
+                <b>Seleccionar problema:</b>
+                <br>
+                <button onclick="problemaselecionado_L8_F03('Faltan programas'); colorproblema_L8_F03('Faltan programas')" class="button_ventana">Faltan programas</button>
+                <button onclick="problemaselecionado_L8_F03('Necesita soporte'); colorproblema_L8_F03('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                <button onclick="problemaselecionado_L8_F03('Falta un componente'); colorproblema_L8_F03('Falta un componente')" class="button_ventana">Falta un componente</button>
+                <button onclick="problemaselecionado_L8_F03('En mal estado'); colorproblema_L8_F03('En mal estado')" class="button_ventana">En mal estado</button>
+                <br><br>
+                <form id="problemaForm_L8_F03" action="enviar_correo.php" method="post">
+                    <input id="problema_L8_F03" name="problema" type="hidden">
+                    <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                    <input type="hidden" name="div_name" value="L8_F03">
+                </form>
+                <button type="button" onclick="enviar_problem_L8_F03()" class="enviar">Guardar</button>
+            </dialog>
+            <dialog id="estado_L8_F03">
+                <p><b>Estado:</b>
+                    <br>
+                    Buen estado
+                </p>
+                <br><br>
+                <p><b>Problema:</b>
+                    <br>
+                    Ninguno
+                </p>
+                <br><br>
+                <p><b>Instrucciones:</b>
+                    <br><br>
+                    Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                </p>
+                <br>
+                <button onclick="report_problem_L8_F03()" class="boton_report">Reportar problema</button>
+            </dialog>
+        </div>
+
+        <!-- L8_G03 --> 
+        
+        <a href="#" onclick="abrir_L8_G03()"><div class="div-box" id="box_externo_L8_G03"><i class="bi bi-pc-display-horizontal"></i>
+            <br>
+            L8-G03</div></a>
+        <div class="Contenido" id="box_interno_L8_G03">
+            <nav class="nav_form">
+                <a href="#" onclick="cerrar_L8_G03()"><i class="bi bi-x-square"
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        position: fixed;
+                        left: 72%;"></i></a>
+                <a href="#" onclick="edit_L8_G03()"><i class="bi bi-pencil-square" 
+                    style="
+                        color: white;
+                        font-size: x-large;
+                        left: 83%;"></i></a>
+            </nav>
+            <br>
+            <h2><i class="bi bi-pc-display-horizontal"></i>
+                <br>
+                L8-G03
+            </h2>
+            <dialog id="report_L8_G03">
+                <p><b>Instrucciones:</b> A continuacion se enumeran los problemas mas comunes en el equipo. Seleccione la opcion que mejor describa la dificultad que esta experimentando actualmente.</p>
+                <ul>
+                    <li><b>Falta un componente.</b> Presionar si su computadora no cuenta con teclado, mouse, monitor, CPU.</li>
+                    <li><b>Falta un programa.</b> Presionar si su computadora no cuenta con algún programa o necesita actualización.</li>
+                    <li><b>En mal estado.</b> Presionar si su computadora no enciende o si el monitor está defectuoso.</li>
+                    <li><b>Necesita soporte.</b> Presionar si su computadora se quedo pegada, no reacciona o está muy lenta.</li>
+                </ul>
+                <br>
+                <br>
+                <b>Seleccionar problema:</b>
+                <br>
+                <button onclick="problemaselecionado_L8_G03('Faltan programas'); colorproblema_L8_G03('Faltan programas')" class="button_ventana">Faltan programas</button>
+                <button onclick="problemaselecionado_L8_G03('Necesita soporte'); colorproblema_L8_G03('Necesita soporte')" class="button_ventana">Necesita soporte</button>
+                <button onclick="problemaselecionado_L8_G03('Falta un componente'); colorproblema_L8_G03('Falta un componente')" class="button_ventana">Falta un componente</button>
+                <button onclick="problemaselecionado_L8_G03('En mal estado'); colorproblema_L8_G03('En mal estado')" class="button_ventana">En mal estado</button>
+                <br><br>
+                <form id="problemaForm_L8_G03" action="enviar_correo.php" method="post">
+                    <input id="problema_L8_G03" name="problema" type="hidden">
+                    <input class="text" name="mensaje" type="text" placeholder="Agregue su comentario aqui">
+                    <input type="hidden" name="div_name" value="L8_G03">
+                </form>
+                <button type="button" onclick="enviar_problem_L8_G03()" class="enviar">Guardar</button>
+            </dialog>
+            <dialog id="estado_L8_G03">
+                <p><b>Estado:</b>
+                    <br>
+                    Buen estado
+                </p>
+                <br><br>
+                <p><b>Problema:</b>
+                    <br>
+                    Ninguno
+                </p>
+                <br><br>
+                <p><b>Instrucciones:</b>
+                    <br><br>
+                    Si el equipo que esta utilizando actualmente cuenta con algun tipo de problema, puede presionar la opcion <b>Reportar problema</b> para poder informar el problema que esta presentando y se pueda resolver lo antes posible. De lo contrario, puede presionar <b>X</b> para salir.
+                </p>
+                <br>
+                <button onclick="report_problem_L8_G03()" class="boton_report">Reportar problema</button>
+            </dialog>
+        </div>
+        
+        </div>
+    </div>
+    <Script src="Contenido.js"></Script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.titulo {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.subtitulo {
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+.box_principal {
+    top: 50px;
+    position: relative;
+    left: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 20px;
+    width: 90%;
+}
+
+.rectangulo {
+    width: 200px;
+    height: 250px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rectangulo img {
+    max-width: 100%;
+    max-height: 50%;
+    border-radius: 8px;
+}
+
+.rectangulo a {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.rectangulo a:hover {
+    background-color: #ddd;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.nav_principal {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0; /* Ajusta el relleno según sea necesario */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    background-color: antiquewhite;
+}
